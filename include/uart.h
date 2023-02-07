@@ -1,8 +1,8 @@
 //=========================================//
 //   Title:  uart.h                        //
 //  Author:  Miguel                        //
-//    Date:  12/31/2022                    //
-// Version:  1                             //
+//    Date:  02/07/2023                    //
+// Version:  2                             //
 //   Notes:  Ref BCM2835-ARM-PERIFERALS    //
 //=========================================//
 #ifndef UART
@@ -29,9 +29,29 @@
 #define UART_ITOP     (UART_BASE | 0x88)
 #define UART_TDR      (UART_BASE | 0x8c)
 
+/**
+ * @brief Initalize the Raspberry Pi UART with specific Baud
+ * 
+ * @param brd Baud Rate (e.g. 115200)
+ */
 void uart_init(pireg32_t brd);
+/**
+ * @brief Put a character onto the UART TX line
+ * 
+ * @param c The character to put onto UART TX
+ */
 void uart_putc(char c);
+/**
+ * @brief Get a char on the UART RX line
+ * 
+ * @return A char received from UART RX
+ */
 char uart_getc();
+/**
+ * @brief Put a string of characters onto the UART TX line
+ * 
+ * @param str The null-terminated string of characters to put onto UART TX
+ */
 void uart_puts(const char* str);
 
 #endif

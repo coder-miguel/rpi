@@ -1,8 +1,8 @@
 //=========================================//
 //   Title:  gpio.h                        //
 //  Author:  Miguel                        //
-//    Date:  12/31/2022                    //
-// Version:  1                             //
+//    Date:  02/07/2023                    //
+// Version:  2                             //
 //   Notes:  Ref BCM2835-ARM-PERIFERALS    //
 //=========================================//
 #ifndef GPIO
@@ -120,6 +120,6 @@ void fsel(pin_t pin, fsel_t mode);
  * Return:
  *      - void
  * Purpose:
- * Pauses the thread using a loop for the time delay in MICROSECONDS */
+ * Pauses the thread using a loop for the time delay in NANOSECONDS */
 void sleep(nanos delay);
 #endif
