@@ -1,20 +1,38 @@
 //=========================================//
-//   Title:  io.h                          //
+//   Title:  mmio.h                        //
 //  Author:  Miguel                        //
-//    Date:  12/31/2022                    //
-// Version:  1                             //
+//    Date:  02/07/2023                    //
+// Version:  2                             //
 //   Notes:  Ref BCM2835-ARM-PERIFERALS    //
 //=========================================//
-#ifndef IO
-#define IO
-
-#include <bcm283x.h>
+#ifndef MMIO
+#define MMIO
+#include <rpi.h>
 #include <inttypes.h>
 #include <stdbool.h>
 
-typedef uint32_t pireg32_t;
-typedef uint32_t piaddr32_t;
-typedef uint32_t nanos;
+#define PI_BREAK asm volatile("brk #0");
+
+#ifndef RPI_VERSION
+    #define MMIO_BASE         (0x20000000)
+#else
+    #if RPI_VERSION==0 || RPI_VERSION==1 || RPI_VERSION==2
+        #define MMIO_BASE         (0x20000000)
+    #elif RPI_VERSION==3
+        #define MMIO_BASE         (0x3f000000)
+    #elif RPI_VERSION==4
+        #define MMIO_BASE         (0xfe000000)
+    #else
+        #define MMIO_BASE         (0x20000000)
+    #endif
+#endif
+
+#define GPIO_OFFSET         (0x200000)
+#define UART_OFFSET         (0x201000)
+#define PWM_OFFSET          (0x20c000)
+#define CLKPWM_OFFSET       (0x1010a0)
+#define BCMTIMER_OFFSET     (0x003004)
+#define MBOX_OFFSET           (0xb880)
 
 #define NANOS_1     1
 #define NANOS_10    10
@@ -25,29 +43,34 @@ typedef uint32_t nanos;
 #define MILLIS_1000 (1000 * 1000)
 #define SECONDS_1   (1000 * 1000)
 
+typedef uint32_t pireg32_t;
+typedef uint32_t piaddr32_t;
+typedef uint32_t nanos;
+
 #define BIC(word, mask) (word) & ~(mask)
 #define AND(word, mask) (word) &  (mask)
 #define ORR(word, mask) (word) |  (mask)
 #define XOR(word, mask) (word) ^  (mask)
 #define NOT(word) ~(word)
 
+/**
+ * @brief Not yet implemented
+ * 
+ */
 void mmio_init();
 /**
- * Parameters:
- *      - addr : uint32_t
- *      - data : uint32_t
+ * @brief Do a volatile write to an address
  * 
- * Purpose:
- * Do a volatile write to an address on the pi */
+ * @param addr The physical address on the Pi
+ * @param data The data to write
+ */
 void write(piaddr32_t addr, pireg32_t data);
 /**
- * Parameters:
- *      - addr : uint32_t
+ * @brief Do a volatile read from an address
  * 
- * Return:
- *      - The value at the address
- * Purpose:
- * Do a volatile read from an address on the pi */
+ * @param addr The physical address on the Pi
+ * @return pireg32_t - The data read from that address
+ */
 pireg32_t read(piaddr32_t addr);
 
 #endif
