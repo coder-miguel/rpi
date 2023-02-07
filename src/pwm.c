@@ -1,8 +1,8 @@
 //=========================================//
 //   Title:  pwm.c                         //
 //  Author:  Miguel                        //
-//    Date:  12/31/2022                    //
-// Version:  1                             //
+//    Date:  02/07/2023                    //
+// Version:  2                             //
 //   Notes:  Ref BCM2835-ARM-PERIFERALS    //
 //=========================================//
 #include <pwm.h>
@@ -57,7 +57,7 @@ void pwm_rng(uint8_t channel, pireg32_t range){
             break;
     }
 }
-void pwm_wdat(uint8_t channel, pireg32_t data){
+void pwm_set(uint8_t channel, pireg32_t data){
     switch (channel){
         case 1:
             write(PWM_DAT1, data);
@@ -69,7 +69,7 @@ void pwm_wdat(uint8_t channel, pireg32_t data){
             break;
     }
 }
-void pwm_wfifo(pireg32_t data){
+void pwm_push(pireg32_t data){
     do {
         write(PWM_FIF1, data);
         sleep(MILLIS_1);

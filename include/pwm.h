@@ -1,13 +1,14 @@
 //=========================================//
 //   Title:  pwm.h                         //
 //  Author:  Miguel                        //
-//    Date:  12/31/2022                    //
-// Version:  1                             //
+//    Date:  02/07/2023                    //
+// Version:  2                             //
 //   Notes:  Ref BCM2835-ARM-PERIFERALS    //
 //=========================================//
 #ifndef PWM
 #define PWM
 
+#include <mmio.h>
 #include <gpio.h>
 
 #define PWM_BASE      (MMIO_BASE | PWM_OFFSET)
@@ -62,8 +63,8 @@
 
 void pwm_init(float freq, pireg32_t range, pireg32_t pwm_options, pireg32_t clk_options);
 void pwm_rng(uint8_t channel, pireg32_t range);
-void pwm_wdat(uint8_t channel, pireg32_t data);
-void pwm_wfifo(pireg32_t data);
+void pwm_set(uint8_t channel, pireg32_t data);
+void pwm_push(pireg32_t data);
 bool pwm_fifo_rerr();
 bool pwm_fifo_werr();
 bool pwm_fifo_empty();
