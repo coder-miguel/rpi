@@ -32,7 +32,7 @@ __asm__(
 #elif RPI_VERSION==2
 __asm__(
 "  .section .text.boot          \n"
-"  .globl _start                \n"\
+"  .globl _start                \n"
 "  .org 0x8000                  \n"
 "  _start:                      \n"
 "    mrc p15, 0, r5, c0, c0, 5  \n"
