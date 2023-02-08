@@ -8,7 +8,7 @@
 #include <pwm.h>
 #include <uart.h>
 
-void main() {
+void main(){
 
     // initialize UART with 115200Bd (Baud)
     uart_init(115200);
@@ -38,15 +38,13 @@ void main() {
     nanos timeprev = timenow;        // Timer
 
     // main Loop
-    while(1)
-    {
+    while(1){
         // default delay of each loop
         sleep(2*MILLIS_10);
 
         // toggle pin 21 every 1 second
         timenow = read(BCM_TIMER);
-        if ((timenow - timeprev) > SECONDS_1)
-        {
+        if ((timenow - timeprev) > SECONDS_1){
             timeprev = timenow;
             if (pin21_state)
                 gpio_set(21);
@@ -58,8 +56,7 @@ void main() {
 
         // check if button was pressed
         gpeds0_register = read(GPEDS0);     // read the Event Detect Register (GPIO pins 0-31)
-        if ((gpeds0_register >> 26) & 0x1)  // isolate pin 26 bit position (check GPIO 26 activitiy)
-        {
+        if ((gpeds0_register >> 26) & 0x1){  // isolate pin 26 bit position (check GPIO 26 activitiy)
             uart_puts("Button 26 pressed");
             write(GPEDS0, 0xffffffff);      // clean EDS register
         }
